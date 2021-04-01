@@ -1,5 +1,5 @@
 $(document).ready( function () {
-
+ // hellooo :)
 } );
 
 function displayMessage(response)
@@ -13,29 +13,3 @@ function displayMessage(response)
     message.appendTo($('body')).fadeIn(300).delay(3000).fadeOut(1500);
 }
 
-
-// function createPlacement()
-// {
-//     let data = $('#formAddPlacement').serializeArray();
-//
-//     for (let i = 0; i < data.length; i++)
-//         if (!data[i].value.length) {
-//             displayMessage("Hodnota '" + data[i]["name"] + "' nesmie byt prazdna");
-//             return;
-//         }
-//
-//     var formData = {
-//         "person_id": data[0]["value"],
-//         "oh_id": data[1]["value"],
-//         "placing": data[2]["value"],
-//         "discipline": data[3]["value"]
-//     };
-//
-//     $.ajax({
-//         url: 'https://wt78.fei.stuba.sk/zadanie2/controllers/AddPlacement.php',
-//         type: 'POST',
-//         data: formData,
-//         dataType: 'text',
-//        success: displayMessage,
-//     });
-// }

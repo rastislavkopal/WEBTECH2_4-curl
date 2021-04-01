@@ -21,7 +21,7 @@ error_reporting(E_ALL);
 
 <?php
     include_once './controllers/DataCheckController.php';
-    updateData();
+    updateResourcesIfNeeded();
 ?>
 <!--GENERATE TABLE WITH DATATABLES-->
 <div id="table_div">
