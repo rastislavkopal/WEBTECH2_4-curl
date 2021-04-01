@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
 <!doctype  html>
 <html lang="sk">
 <head>
@@ -15,7 +19,10 @@
 
 <?php include('./views/header.php') ?>
 
-
+<?php
+    include_once './controllers/DataCheckController.php';
+    updateData();
+?>
 <!--GENERATE TABLE WITH DATATABLES-->
 <div id="table_div">
     <table id="table_id" class="display"></table>
