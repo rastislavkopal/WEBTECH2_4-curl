@@ -1,0 +1,38 @@
+html,body {
+    margin: 0;
+}
+
+#table_div{
+    width: 80%;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 100px;
+}
+
+#indexFooter{
+    width: 100%;
+    min-height: 50px;
+    position: fixed;
+    bottom: 0;
+}
+
+.error-message {
+    position: fixed;
+    top: 20%;
+    left: 45%;
+    margin-left: -150px;
+    width: 400px;
+    z-index: 9999;
+    background-color: tomato;
+    color: white;
+}
+
+#uploader_div{
+    display: none;
+    position: absolute;
+    background-color: whitesmoke;
+    width: 100%;
+    z-index: 4;
+    min-height: 200px;
+    padding: 15px 30px 30px 30px;
+}

@@ -2,7 +2,7 @@
 <!doctype  html>
 <html lang="sk">
 <head>
-    <title>Zadanicko 3</title>
+    <title>Zadanicko 4</title>
     <meta charset="utf-8">
     <meta name="description" content="Webtech assignment 2021 FEI STU">
     <meta name="author" content="Rastislav Kopál">
@@ -15,6 +15,11 @@
 
 <?php include('./views/header.php') ?>
 
+
+<!--GENERATE TABLE WITH DATATABLES-->
+<div id="table_div">
+    <table id="table_id" class="display"></table>
+</div>
 
 <?php include('./views/footer.php') ?>
 
