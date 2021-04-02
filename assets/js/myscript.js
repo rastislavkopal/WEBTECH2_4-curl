@@ -21,11 +21,10 @@ function showUsers()
             let columns = Object.keys(json[0])
 
             var myCols = [];
-            myCols.push({"data": "id", "title": "ID"});
-            myCols.push({"data": "first_name", "title" : "meno"});
-            myCols.push({"data": "last_name", "title": "priezvisko"});
+            myCols.push({"data": "first_name", "title" : "meno", "orderData": [ 0, 1 ]});
+            myCols.push({"data": "last_name", "title": "priezvisko", "orderData": [ 1, 0 ]});
 
-            let skip = 3;
+            let skip = 2;
             for (let i in columns){
                 if (skip > 0){
                     skip--;
@@ -34,6 +33,8 @@ function showUsers()
                 myCols.push({"data": columns[i], "title": "Prednaska " + (i-2)});
             }
 
+            myCols.push({"data": "attendance", "title": "Dochádzka"});
+            myCols.push({"data": "sum_minutes", "title": "Suma minút"});
 
             $("#table_id").DataTable({
                 data: json,

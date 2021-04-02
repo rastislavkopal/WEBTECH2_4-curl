@@ -14,32 +14,32 @@ function getAllPersons()
     $resources = $resourcesModel->getResourceNames();
     $usersWithTimes = [];
 
-
+    // TODO add to table header also date
     foreach ($persons as $person){
-//        $usersWithTimes[$person['id']] = [
-//            'id' => $person['id'],
-//            'first_name' => $person['first_name'],
-//            'last_name' => $person['last_name'],
-//        ];
 
         $person = [
-            'id' => $person['id'],
             'first_name' => $person['first_name'],
             'last_name' => $person['last_name'],
         ];
 
+        $attendance = 0;
+        $sumMinutes = 0;
          for ($i=0; $i < count($resources); $i++)
          {
-            $userTimesPerResource = $recordsModel->getPersonTimestampsByResource($person['first_name'],$person['last_name'], $resources[$i]);
+            $userTimesPerResource = $recordsModel->getPersonTimestampsByResource($person['first_name'], $person['last_name'], $resources[$i]);
             $lastLeft = $recordsModel->lastLeftByResource($resources[$i]);
             $resourceWithoutDot = str_replace(".csv","", $resources[$i]);
-            $person[$resourceWithoutDot] = strval(calculateTime($userTimesPerResource, $lastLeft));
-//            echo "resource: " . $resources[$i] . ", id: " . $person['id']  . " -> " . $person['first_name'] . " " . $person['last_name'] . ".... time: " . calculateTime($userTimesPerResource, $lastLeft) . "<br>";
-        }
-        $usersWithTimes[] = $person;
 
-//        echo var_dump($usersWithTimes[$person['id']]);
-//        echo "<br><br><br>";
+            $timeOnSeminar = calculateTime($userTimesPerResource, $lastLeft);
+            if ($timeOnSeminar != 0)
+                $attendance++;
+            $sumMinutes += $timeOnSeminar;
+            $person[$resourceWithoutDot] = $timeOnSeminar;
+         }
+         $person['attendance'] = $attendance;
+         $person['sum_minutes'] = $sumMinutes;
+
+         $usersWithTimes[] = $person;
     }
     return $usersWithTimes;
 }
@@ -61,5 +61,5 @@ function calculateTime($records, $lastLeftForResource)
         $timeSpent += round(abs($to_time - $from_time) / 60,2);
     }
 
-    return $timeSpent;
+    return round($timeSpent,2);
 }
