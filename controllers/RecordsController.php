@@ -16,7 +16,13 @@ function getAllPersons()
 
 
     foreach ($persons as $person){
-        $usersWithTimes[$person['id']] = [
+//        $usersWithTimes[$person['id']] = [
+//            'id' => $person['id'],
+//            'first_name' => $person['first_name'],
+//            'last_name' => $person['last_name'],
+//        ];
+
+        $person = [
             'id' => $person['id'],
             'first_name' => $person['first_name'],
             'last_name' => $person['last_name'],
@@ -26,9 +32,12 @@ function getAllPersons()
          {
             $userTimesPerResource = $recordsModel->getPersonTimestampsByResource($person['first_name'],$person['last_name'], $resources[$i]);
             $lastLeft = $recordsModel->lastLeftByResource($resources[$i]);
-            $usersWithTimes[$person['id']][$resources[$i]] =  calculateTime($userTimesPerResource, $lastLeft);
+            $resourceWithoutDot = str_replace(".csv","", $resources[$i]);
+            $person[$resourceWithoutDot] = strval(calculateTime($userTimesPerResource, $lastLeft));
 //            echo "resource: " . $resources[$i] . ", id: " . $person['id']  . " -> " . $person['first_name'] . " " . $person['last_name'] . ".... time: " . calculateTime($userTimesPerResource, $lastLeft) . "<br>";
         }
+        $usersWithTimes[] = $person;
+
 //        echo var_dump($usersWithTimes[$person['id']]);
 //        echo "<br><br><br>";
     }

@@ -26,13 +26,3 @@ html,body {
     background-color: tomato;
     color: white;
 }
-
-#uploader_div{
-    display: none;
-    position: absolute;
-    background-color: whitesmoke;
-    width: 100%;
-    z-index: 4;
-    min-height: 200px;
-    padding: 15px 30px 30px 30px;
-}

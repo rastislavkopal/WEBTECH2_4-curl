@@ -13,7 +13,6 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="./assets/css/login.css">
 </head>
 <body>
 
@@ -21,13 +20,29 @@ error_reporting(E_ALL);
 
 <?php
     include_once './controllers/DataCheckController.php';
-    include_once './controllers/RecordsController.php';
+    require_once '/home/xkopalr1/public_html/zadanie4/models/ResourcesModel.php';
     updateResourcesAndRecordsIfNeeded();
-    getAllPersons();
+
+
+
+    $resources = (new ResourcesModel())->getResourceNames();
+    array_push($resources, "first_name","id", "last_name");
 ?>
+
+
 <!--GENERATE TABLE WITH DATATABLES-->
 <div id="table_div">
-    <table id="table_id" class="display"></table>
+    <table id="table_id" class="display">
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            --><?php
+//                foreach ($resources as $resource)
+//                    echo "<th>" . $resource . "</th>";
+//            ?>
+<!--        </tr>-->
+<!--        </thead>-->
+    </table>
+
 </div>
 
 <?php include('./views/footer.php') ?>

@@ -52,7 +52,7 @@ function updateResourcesAndRecordsIfNeeded()
 function convertDateToTimestamp($strDate)
 {
     if (str_contains($strDate,"AM")){
-        return date('Y-m-d H:i:s',date_create_from_format('d/m/Y, H:i:s A',$strDate)->getTimestamp());
+        return date('Y-m-d H:i:s',date_create_from_format('m/d/Y, H:i:s A',$strDate)->getTimestamp());
     } else {
         return date('Y-m-d H:i:s',date_create_from_format('d/m/Y, H:i:s',$strDate)->getTimestamp());
     }
