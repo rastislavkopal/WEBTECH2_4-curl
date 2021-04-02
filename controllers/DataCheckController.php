@@ -3,12 +3,8 @@
 require_once '/home/xkopalr1/public_html/zadanie4/models/ResourcesModel.php';
 require_once '/home/xkopalr1/public_html/zadanie4/models/RecordsModel.php';
 
-function updateData()
-{
 
-}
-
-function updateResourcesIfNeeded()
+function updateResourcesAndRecordsIfNeeded()
 {
     $filesList = getFilesList();
     $filenames = [];
@@ -22,6 +18,7 @@ function updateResourcesIfNeeded()
     if ((empty($missingResources = array_diff($filenames, $resourceModel->getResourceNames())) == false))
     {
         foreach ($missingResources as $key => $value) { // for each value in directory
+            echo $value;
             if (!empty($value)){
                 $resourceModel->insertNewResource($value);
 
@@ -75,7 +72,7 @@ function getCsvFile($filename)
 
     // close curl resource to free up system resources
     curl_close($ch);
-    return mb_convert_encoding($result, "UTF-8","UTF-16");;
+    return mb_convert_encoding($result, "UTF-8","UTF-16");
 }
 
 // returns json array -> github api: all resources
@@ -94,7 +91,7 @@ function getFilesList()
     $result = curl_exec($ch);
 
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $header = substr($result , 0, $header_size);
+//    $header = substr($result , 0, $header_size);
     $body = substr($result , $header_size);
 
     curl_close($ch); // close curl resource to free up system resources

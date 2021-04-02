@@ -21,7 +21,9 @@ error_reporting(E_ALL);
 
 <?php
     include_once './controllers/DataCheckController.php';
-    updateResourcesIfNeeded();
+    include_once './controllers/RecordsController.php';
+    updateResourcesAndRecordsIfNeeded();
+    getAllPersons();
 ?>
 <!--GENERATE TABLE WITH DATATABLES-->
 <div id="table_div">
