@@ -1,7 +1,7 @@
 <?php
 
 require_once '/home/xkopalr1/public_html/zadanie4/models/ResourcesModel.php';
-require_once '/home/xkopalr1/public_html/zadanie4/models/Database.php';
+require_once '/home/xkopalr1/public_html/zadanie4/models/RecordsModel.php';
 
 function updateData()
 {
@@ -13,30 +13,51 @@ function updateResourcesIfNeeded()
     $filesList = getFilesList();
     $filenames = [];
     $resourceModel = new ResourcesModel();
+    $recordsModel = new RecordsModel();
 
     foreach ($filesList as $key => $value)
         $filenames[] = $value->name;
 
-//var_dump($filesList); // TODO remove
-
     // if arrays intersection is not empty => there is new item => update resources
-    if (empty(array_diff($filenames, $resourceModel->getResourceNames()) == false)){
-        foreach ($filesList as $key => $value) { // for each value in directory
-            if (!empty($value->name))
-                $resourceModel->insertNewResource($value->name);
+    if ((empty($missingResources = array_diff($filenames, $resourceModel->getResourceNames())) == false))
+    {
+        foreach ($missingResources as $key => $value) { // for each value in directory
+            if (!empty($value)){
+                $resourceModel->insertNewResource($value);
+
+                // for each line, split by tabulator
+                $csv = explode(PHP_EOL, getCsvFile($value));
+                $isFirst = true;
+                foreach($csv as $line){
+                    if ($isFirst){ // skip first line => headers
+                        $isFirst = false;
+                        continue;
+                    }
+
+                    $line = explode("\t", $line);
+                    $splitName = explode(" ", $line[0]);
+                    if(empty($splitName[0]) || empty($splitName[1]) || empty($line[1]) || empty($line[2]) || empty($value))
+                        continue;
+
+                    $recordsModel->insertNewRecord([
+                        'first_name' => $splitName[0],
+                        'last_name' => $splitName[1],
+                        'action_type' => $line[1],
+                        'action_time' => convertDateToTimestamp($line[2]),
+                        'resource_name' => $value,
+                    ]);
+                }
+            }
         }
     }
+}
 
-
-    // for each line, split by tabulator
-    $csv = explode(PHP_EOL, getCsvFile($filenames[0]));
-    $isFirst = true;
-    foreach($csv as $line){
-        if ($isFirst){ // skip first line => headers
-            $isFirst = false;
-            continue;
-        }
-        echo var_dump(explode("\t", $line)) . "<br>";
+function convertDateToTimestamp($strDate)
+{
+    if (str_contains($strDate,"AM")){
+        return date('Y-m-d H:i:s',date_create_from_format('d/m/Y, H:i:s A',$strDate)->getTimestamp());
+    } else {
+        return date('Y-m-d H:i:s',date_create_from_format('d/m/Y, H:i:s',$strDate)->getTimestamp());
     }
 }
 

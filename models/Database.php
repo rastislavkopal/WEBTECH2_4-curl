@@ -10,7 +10,7 @@ class Database
 
     function __construct()
     {
-        require_once '/home/xkopalr1/public_html/config.php';
+        require '/home/xkopalr1/public_html/config.php';
 
         if (empty($username) || empty($password) || empty($servername))
             echo "Cannot be empty string.";

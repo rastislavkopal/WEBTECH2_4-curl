@@ -12,7 +12,7 @@ class ResourcesModel
     private $db;
 
     /**
-     * UserModel constructor.
+     * ResourcesModel constructor.
      */
     public function __construct()
     {
