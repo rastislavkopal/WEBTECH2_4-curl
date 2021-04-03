@@ -1,6 +1,23 @@
 $(document).ready( function () {
     showUsers();
+
+    $('#table_id').on('click', 'td',function (e) {
+        e.preventDefault();
+        var table = $('#table_id').DataTable();
+        var data = table.row($(this).closest('tr')).data();
+        var cell = table.cell($(this).closest('td')).data();
+        if (!getKeyByValue(data,cell).startsWith("2021"))
+            return;
+        $.get( "https://wt78.fei.stuba.sk/zadanie4/controllers/api_usertimes.php?first_name=" + data.first_name + "&last_name=" + data.last_name + "&resource=" + getKeyByValue(data,cell) + ".csv", displayMessage );
+    });
+
 } );
+
+
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
 
 function displayMessage(response)
 {
@@ -13,11 +30,11 @@ function displayMessage(response)
     message.appendTo($('body')).fadeIn(300).delay(3000).fadeOut(1500);
 }
 
+
 function showUsers()
 {
 
     $.getJSON('https://wt78.fei.stuba.sk/zadanie4/controllers/api_records.php', function(json) {
-            console.log(json)
             let columns = Object.keys(json[0])
 
             var myCols = [];
@@ -26,7 +43,6 @@ function showUsers()
 
             let skip = 2;
             for (let i in columns){
-                console.log(columns[i])
                 if (skip > 0){
                     skip--;
                     continue;
