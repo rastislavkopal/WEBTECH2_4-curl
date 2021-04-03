@@ -26,11 +26,13 @@ function showUsers()
 
             let skip = 2;
             for (let i in columns){
+                console.log(columns[i])
                 if (skip > 0){
                     skip--;
                     continue;
                 }
-                myCols.push({"data": columns[i], "title": "Prednaska " + (i-2)});
+                if (columns[i] != "attendance" && columns[i] != "sum_minutes" && columns[i] != "first_name" && columns[i] != "last_name")
+                    myCols.push({"data": columns[i], "title": "Prednaska " + (i-2) + getDateFromCsvString(columns[i]) });
             }
 
             myCols.push({"data": "attendance", "title": "Dochádzka"});
@@ -48,5 +50,11 @@ function showUsers()
                 "order": [[1, 'asc']]
             });
     });
+}
+
+// string like: 20210216_AttendanceList_WebTe2
+function getDateFromCsvString(str)
+{
+    return "<br>" + str.substr(6,2) + "." + str.substr(4,2) + ". " + str.substr(0,4);
 }
 

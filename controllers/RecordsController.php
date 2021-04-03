@@ -14,7 +14,6 @@ function getAllPersons()
     $resources = $resourcesModel->getResourceNames();
     $usersWithTimes = [];
 
-    // TODO add to table header also date
     foreach ($persons as $person){
 
         $person = [
@@ -37,7 +36,7 @@ function getAllPersons()
             $person[$resourceWithoutDot] = $timeOnSeminar;
          }
          $person['attendance'] = $attendance;
-         $person['sum_minutes'] = $sumMinutes;
+         $person['sum_minutes'] = round($sumMinutes,2);
 
          $usersWithTimes[] = $person;
     }
