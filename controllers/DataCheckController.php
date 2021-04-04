@@ -6,13 +6,9 @@ require_once '/home/xkopalr1/public_html/zadanie4/models/RecordsModel.php';
 
 function updateResourcesAndRecordsIfNeeded()
 {
-    $filesList = getFilesList();
-    $filenames = [];
+    $filenames = getFilesList();
     $resourceModel = new ResourcesModel();
     $recordsModel = new RecordsModel();
-
-    foreach ($filesList as $key => $value)
-        $filenames[] = $value->name;
 
     // if arrays intersection is not empty => there is new item => update resources
     if ((empty($missingResources = array_diff($filenames, $resourceModel->getResourceNames())) == false))
@@ -75,25 +71,51 @@ function getCsvFile($filename)
     return mb_convert_encoding($result, "UTF-8","UTF-16");
 }
 
-// returns json array -> github api: all resources
+// returns json array -> with all resource names
 function getFilesList()
 {
-    // create curl resource
-    $ch = curl_init();
+    $some_link = 'https://github.com/apps4webte/curldata2021';
+    $tagName = 'a';
+    $attrName = 'class';
+    $attrValue = 'js-navigation-open Link--primary';
 
-    // set url
-    curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/apps4webte/curldata2021/contents");
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0');
-    curl_setopt($ch, CURLOPT_HEADER, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //return the transfer as a string
+    $dom = new DOMDocument;
+    $dom->preserveWhiteSpace = false;
+    @$dom->loadHTMLFile($some_link);
 
-    // $output contains the output string
-    $result = curl_exec($ch);
+    $html = getTags( $dom, $tagName, $attrName, $attrValue );
 
-    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-//    $header = substr($result , 0, $header_size);
-    $body = substr($result , $header_size);
+    $html = strip_tags($html);
 
-    curl_close($ch); // close curl resource to free up system resources
-    return json_decode($body);
+    $resourcesCount = substr_count($html, '.');
+
+    $resources = [];
+    for ($i =0; $i < $resourcesCount; $i++){
+        $resources[] = strval(substr($html,0, $pos = strpos($html, '.')) . ".csv");
+        $html = substr($html, $pos = strpos($html, '.')+4);
+    }
+
+    return $resources;
+}
+
+
+function getTags( $dom, $tagName, $attrName, $attrValue ){
+    $html = '';
+    $domxpath = new DOMXPath($dom);
+    $newDom = new DOMDocument;
+    $newDom->formatOutput = true;
+
+    $filtered = $domxpath->query("//$tagName" . '[@' . $attrName . "='$attrValue']");
+
+    // since above returns DomNodeList Object
+    // I use following routine to convert it to string(html); copied it from someone's post in this site. Thank you.
+    $i = 0;
+    $arrayOfName = [];
+    while( $myItem = $filtered->item($i++) ){
+        $node = $newDom->importNode( $myItem, true );    // import node
+        $newDom->appendChild($node);                    // append node
+        $arrayOfName[] = $newDom->textContent;
+    }
+    $html = $newDom->saveHTML();
+    return $html;
 }
