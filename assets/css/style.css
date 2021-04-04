@@ -13,7 +13,7 @@ html,body {
 #indexFooter{
     width: 100%;
     min-height: 50px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
 }
 
@@ -29,4 +29,8 @@ html,body {
 }
 
 #chartContainer{
+}
+
+.didntLeft{
+    color: tomato;
 }

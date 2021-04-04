@@ -33,7 +33,11 @@ function getAllPersons()
             if ($timeOnSeminar != 0)
                 $attendance++;
             $sumMinutes += $timeOnSeminar;
-            $person[$resourceWithoutDot] = $timeOnSeminar;
+            if (count($userTimesPerResource) % 2 != 0) { // user did not left the seminar => change color of the text
+                $person[$resourceWithoutDot] = "<span class='didntLeft'>" . $timeOnSeminar . "</span>";
+            } else {
+                $person[$resourceWithoutDot] = $timeOnSeminar;
+            }
          }
          $person['attendance'] = $attendance;
          $person['sum_minutes'] = round($sumMinutes,2);
