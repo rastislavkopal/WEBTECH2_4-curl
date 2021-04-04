@@ -40,6 +40,18 @@ class RecordsModel
         }
     }
 
+    public function getDistinctPeopleByResource($resourceName)
+    {
+        try{
+            $conn = $this->db->getConnection();
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM (SELECT DISTINCT first_name,last_name FROM records WHERE resource_name=:resource_name) as a");
+            $stmt->execute(["resource_name" => $resourceName]);
+            return $stmt->fetchColumn(0);
+        } catch(PDOException $e) {
+            return "Connection failed: " . $e->getMessage();
+        }
+    }
+
 
     public function getPersonTimestampsByResource($userFirstName, $userLastName, $resourceName)
     {

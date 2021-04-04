@@ -1,5 +1,6 @@
 html,body {
     margin: 0;
+    width: 100%;
 }
 
 #table_div{
@@ -12,7 +13,7 @@ html,body {
 #indexFooter{
     width: 100%;
     min-height: 50px;
-    position: fixed;
+    position: absolute;
     bottom: 0;
 }
 
@@ -25,4 +26,7 @@ html,body {
     z-index: 9999;
     background-color: tomato;
     color: white;
+}
+
+#chartContainer{
 }
