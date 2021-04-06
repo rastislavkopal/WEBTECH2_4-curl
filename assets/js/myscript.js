@@ -48,7 +48,7 @@ function showUsers()
                     continue;
                 }
                 if (columns[i] != "attendance" && columns[i] != "sum_minutes" && columns[i] != "first_name" && columns[i] != "last_name")
-                    myCols.push({"data": columns[i], "title": "Prednaska " + (i-2) + getDateFromCsvString(columns[i]) });
+                    myCols.push({"type": "html-num" ,"data": columns[i], "title": "Prednaska " + (i-2) + getDateFromCsvString(columns[i]) });
             }
 
             myCols.push({"data": "attendance", "title": "Dochádzka"});

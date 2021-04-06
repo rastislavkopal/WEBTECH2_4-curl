@@ -1,8 +1,3 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-?>
 <!doctype  html>
 <html lang="sk">
 <head>
@@ -19,7 +14,6 @@ error_reporting(E_ALL);
 <?php include('./header.php') ?>
 
 <div id="chartContainer" class="mx-5">
-helo
 </div>
 
 <?php include('./footer.php') ?>

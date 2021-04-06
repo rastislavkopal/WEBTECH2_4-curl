@@ -14,7 +14,6 @@ function updateResourcesAndRecordsIfNeeded()
     if ((empty($missingResources = array_diff($filenames, $resourceModel->getResourceNames())) == false))
     {
         foreach ($missingResources as $key => $value) { // for each value in directory
-            echo $value;
             if (!empty($value)){
                 $resourceModel->insertNewResource($value);
 
